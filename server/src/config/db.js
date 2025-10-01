@@ -5,7 +5,7 @@ dotenv.config({ path: "../.env" });
 
 const { Pool } = pkg;
 
-const pool = Pool({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
