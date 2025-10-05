@@ -1,0 +1,87 @@
+import { useState } from "react";
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/api/bugs";
+
+const ViewBug = () => {
+  const [bugs, setBugs] = useState([]);
+
+  const getBugs = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setBugs([...bugs, ...response.data]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+  return (
+    <>
+      <div className="max-w-3xl mx-auto mt-10">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Reported Bugs
+        </h2>
+
+        <div className="flex justify-center mb-8">
+          <button
+            onClick={getBugs}
+            className="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-indigo-700 transition duration-200"
+          >
+            Get Bugs
+          </button>
+        </div>
+
+        <div className="grid gap-6">
+          {bugs.length === 0 ? (
+            <p className="text-center text-gray-500">No bugs found.</p>
+          ) : (
+            bugs.map((bug, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {bug.title}
+                  </h3>
+
+                  <span
+                    className={`px-3 py-1 text-sm font-medium rounded-full ${
+                      bug.priority === "level1"
+                        ? "bg-green-100 text-green-700"
+                        : bug.priority === "level2"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : bug.priority === "level3"
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {bug.priority}
+                  </span>
+                </div>
+
+                <p className="text-gray-600 mb-2">{bug.description}</p>
+
+                <div className="flex justify-between text-sm text-gray-500">
+                  <p>
+                    <span className="font-semibold text-gray-700">Status:</span>{" "}
+                    {bug.status}
+                  </p>
+                  {bug.category && (
+                    <p>
+                      <span className="font-semibold text-gray-700">
+                        Category:
+                      </span>{" "}
+                      {bug.category}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ViewBug;
