@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/bugs";
@@ -74,6 +75,17 @@ const ViewBug = () => {
                       {bug.category}
                     </p>
                   )}
+                </div>
+                <div className="flex justify-end gap-3">
+                  <Link
+                    to={`/bugs/${bug.id}`}
+                    className="px-4 py-1.5 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button className="px-4 py-1.5 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                    Delete
+                  </button>
                 </div>
               </div>
             ))

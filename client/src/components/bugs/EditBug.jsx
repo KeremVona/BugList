@@ -9,6 +9,8 @@ import axios from "axios";
 4. Send the update
 */
 
+const API_URL = "http://localhost:5000/api/bugs";
+
 const EditBug = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -20,7 +22,20 @@ const EditBug = () => {
 
   const { id } = useParams();
 
-  return <div>EditBug</div>;
+  const getBug = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/${id}`);
+      console.log(response);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  return (
+    <button onClick={getBug} className="bg-gray-400">
+      EditBug
+    </button>
+  );
 };
 
 export default EditBug;

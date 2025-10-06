@@ -15,12 +15,11 @@ export const getBug = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const result = await pool.query(
-      "SELECT * FROM bugs WHERE id = (id) VALUES ($1)",
-      [id]
-    );
+    const result = await pool.query("SELECT * FROM bugs WHERE id = $1", [id]);
 
-    res.status(200).send(result.rows[id]);
+    console.log(result.rows[0]);
+
+    res.status(200).send(result.rows[0]);
   } catch (err) {
     console.log("Server error", err.message);
     res.status(500).send("Server error");
