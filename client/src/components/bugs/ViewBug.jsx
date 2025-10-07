@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 
@@ -6,11 +6,25 @@ const API_URL = "http://localhost:5000/api/bugs";
 
 const ViewBug = () => {
   const [bugs, setBugs] = useState([]);
+  const [switch0, setSwitch0] = useState(false);
 
-  const getBugs = async () => {
+  useEffect(() => {
+    const getBugs = async () => {
+      try {
+        const response = await axios.get(API_URL);
+        setBugs([...bugs, ...response.data]);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    getBugs();
+  }, [switch0]);
+
+  const deleteBug = async (id) => {
     try {
-      const response = await axios.get(API_URL);
-      setBugs([...bugs, ...response.data]);
+      await axios.delete(`${API_URL}/${id}`, id);
+      setBugs([]);
+      setSwitch0((prev) => !prev);
     } catch (err) {
       console.error(err.message);
     }
@@ -21,15 +35,6 @@ const ViewBug = () => {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Reported Bugs
         </h2>
-
-        <div className="flex justify-center mb-8">
-          <button
-            onClick={getBugs}
-            className="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-indigo-700 transition duration-200"
-          >
-            Get Bugs
-          </button>
-        </div>
 
         <div className="grid gap-6">
           {bugs.length === 0 ? (
@@ -83,7 +88,10 @@ const ViewBug = () => {
                   >
                     Edit
                   </Link>
-                  <button className="px-4 py-1.5 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                  <button
+                    onClick={() => deleteBug(bug.id)}
+                    className="px-4 py-1.5 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
                     Delete
                   </button>
                 </div>

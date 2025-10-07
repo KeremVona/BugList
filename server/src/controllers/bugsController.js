@@ -17,8 +17,6 @@ export const getBug = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM bugs WHERE id = $1", [id]);
 
-    console.log(result.rows[0]);
-
     res.status(200).send(result.rows[0]);
   } catch (err) {
     console.log("Server error", err.message);
@@ -48,7 +46,7 @@ export const updateBug = async (req, res) => {
 
   try {
     const result = await pool.query(
-      "UPDATE title = $1, description = $2, priority = $3, status = $4, category = $5 WHERE id = $6 RETURNING *",
+      "UPDATE bugs SET title = $1, description = $2, priority = $3, status = $4, category = $5 WHERE id = $6 RETURNING *",
       [title, description, priority, status, category, id]
     );
 
@@ -63,4 +61,15 @@ export const updateBug = async (req, res) => {
   }
 };
 
-export const deleteBug = async (req, res) => {};
+export const deleteBug = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query("DELETE FROM bugs WHERE id = $1", [id]);
+
+    res.status(200).json({ message: "Bug deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
