@@ -31,73 +31,82 @@ const ViewBug = () => {
   };
   return (
     <>
-      <div className="max-w-3xl mx-auto mt-10">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Reported Bugs
-        </h2>
+      <div className="bg-[#1c2541] min-h-screen pt-10 pb-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-white mb-8">Reported Bugs</h2>
 
-        <div className="grid gap-6">
-          {bugs.length === 0 ? (
-            <p className="text-center text-gray-500">No bugs found.</p>
-          ) : (
-            bugs.map((bug, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg transition-shadow"
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {bug.title}
-                  </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {bugs.length === 0 ? (
+              <p className="col-span-full text-center text-gray-400">
+                No bugs found.
+              </p>
+            ) : (
+              bugs.map((bug, i) => (
+                <div
+                  key={i}
+                  className="bg-[#3a506b] rounded-xl shadow-lg p-5 border border-gray-700 flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300"
+                >
+                  <div>
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-xl font-semibold text-white">
+                        {bug.title}
+                      </h3>
 
-                  <span
-                    className={`px-3 py-1 text-sm font-medium rounded-full ${
-                      bug.priority === "level1"
-                        ? "bg-green-100 text-green-700"
-                        : bug.priority === "level2"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : bug.priority === "level3"
-                        ? "bg-orange-100 text-orange-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {bug.priority}
-                  </span>
-                </div>
+                      <span
+                        className={`px-3 py-1 text-sm font-medium rounded-full ${
+                          bug.priority === "level1"
+                            ? "bg-[#6fffe9] text-[#1c2541]"
+                            : bug.priority === "level2"
+                            ? "bg-[#5bc0be] text-[#1c2541]"
+                            : bug.priority === "level3"
+                            ? "bg-orange-400 text-[#1c2541]"
+                            : "bg-red-500 text-white"
+                        }`}
+                      >
+                        {bug.priority}
+                      </span>
+                    </div>
 
-                <p className="text-gray-600 mb-2">{bug.description}</p>
-
-                <div className="flex justify-between text-sm text-gray-500">
-                  <p>
-                    <span className="font-semibold text-gray-700">Status:</span>{" "}
-                    {bug.status}
-                  </p>
-                  {bug.category && (
-                    <p>
-                      <span className="font-semibold text-gray-700">
-                        Category:
-                      </span>{" "}
-                      {bug.category}
+                    <p className="text-gray-300 mb-4 line-clamp-3">
+                      {bug.description}
                     </p>
-                  )}
+
+                    <div className="space-y-1 mb-4 text-sm text-gray-400">
+                      <p>
+                        <span className="font-semibold text-white">
+                          Status:
+                        </span>{" "}
+                        {bug.status}
+                      </p>
+                      {bug.category && (
+                        <p>
+                          <span className="font-semibold text-white">
+                            Category:
+                          </span>{" "}
+                          {bug.category}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-auto flex justify-end gap-3 pt-3 border-t border-gray-600">
+                    <Link
+                      to={`/bugs/${bug.id}`}
+                      className="px-4 py-1.5 text-sm font-medium bg-[#5bc0be] text-[#1c2541] rounded-lg hover:bg-opacity-80 transition-colors"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => deleteBug(bug.id)}
+                      className="px-4 py-1.5 text-sm font-medium bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <div className="flex justify-end gap-3">
-                  <Link
-                    to={`/bugs/${bug.id}`}
-                    className="px-4 py-1.5 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={() => deleteBug(bug.id)}
-                    className="px-4 py-1.5 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
     </>

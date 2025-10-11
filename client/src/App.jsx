@@ -5,6 +5,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import EditBug from "./components/bugs/EditBug";
+import AddBug from "./components/bugs/AddBug";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<Home />} />
+          <Route path="/add-bug" element={<AddBug />} />
           <Route path="/bugs/:id" element={<EditBug />} />
         </Routes>
       </BrowserRouter>
