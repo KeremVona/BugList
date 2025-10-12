@@ -8,15 +8,15 @@ const AddBug = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    priority: "",
-    status: "",
+    priority: "level1",
+    status: "Open",
     category: "",
   });
 
   const [bugs, setBugs] = useState([]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,6 @@ const AddBug = () => {
 
     try {
       const response = await axios.post(API_URL, formData);
-      console.log(response);
     } catch (err) {
       console.error(err.message);
     }
@@ -33,8 +32,8 @@ const AddBug = () => {
     setFormData({
       title: "",
       description: "",
-      priority: "",
-      status: "",
+      priority: "level1",
+      status: "Open",
       category: "",
     });
   };
@@ -59,32 +58,50 @@ const AddBug = () => {
           className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-[#1c2541] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
         />
 
-        <input
-          type="text"
-          value={formData.description}
-          onChange={(e) => handleChange(e)}
-          name="description"
-          placeholder="Description"
-          className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-[#1c2541] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
-        />
+        <div>
+          <label className="block text-white font-semibold mb-1">
+            Description
+          </label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="4"
+            placeholder="Description"
+            className="w-full border border-gray-600 rounded px-3 py-2 bg-[#1c2541] text-white focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
+          />
+        </div>
 
-        <input
-          type="text"
-          value={formData.priority}
-          onChange={(e) => handleChange(e)}
-          name="priority"
-          placeholder="Priority (e.g., High, Medium, Low)"
-          className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-[#1c2541] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
-        />
+        <div>
+          <label className="block text-white font-semibold mb-1">
+            Priority
+          </label>
+          <select
+            name="priority"
+            value={formData.priority}
+            onChange={handleChange}
+            className="w-full border border-gray-600 rounded px-3 py-2 bg-[#1c2541] text-white focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
+          >
+            <option value="level1">Low</option>
+            <option value="level2">Medium</option>
+            <option value="level3">High</option>
+          </select>
+        </div>
 
-        <input
-          type="text"
-          value={formData.status}
-          onChange={(e) => handleChange(e)}
-          name="status"
-          placeholder="Status (e.g., Open, In Progress)"
-          className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-[#1c2541] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
-        />
+        <div>
+          <label className="block text-white font-semibold mb-1">Status</label>
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="w-full border border-gray-600 rounded px-3 py-2 bg-[#1c2541] text-white focus:outline-none focus:ring-2 focus:ring-[#5bc0be]"
+          >
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </div>
 
         <input
           type="text"
